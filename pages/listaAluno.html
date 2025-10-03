@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Listagem</title>
+</head>
+<body>
+  <h1>Listagem de Dados</h1>
+
+  <h2>Alunos</h2>
+  <ul id="listaAlunos"></ul>
+
+  <p><a href="cadastroAluno.html">Voltar para cadastro</a></p>
+
+  <script>
+
+    const dados = JSON.parse(localStorage.getItem("dados")) || { livros: [], alunos: []};
+    
+    const ulAlunos = document.getElementById("listaAlunos");
+    dados.livros.forEach(a => {
+      let li = document.createElement("li");
+      li.textContent = `${a.id} - ${a.titulo} (${a.categoria})`;
+      ulAlunos.appendChild(li);
+    });
+
+    
+  </script>
+</body>
+</html>
