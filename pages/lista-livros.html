@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Listagem</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <h1>Listagem de Livros</h1>
+  
+  <div class="container-tabela">
+  <table >
+    <thead id = "teste">
+      <th>Id</th>
+      <th>Titulo</th>
+      <th>ISBN</th>
+      <th>Categoria</th>
+      <th>Autor</th>
+      <th>Ano</th>
+      <th>Editar</th>
+      <th>Excluir</th>
+    </thead>
+    <tbody id ="lista-livros">
+      
+    </tbody>
+    
+  </table>
+  </div>
+  <div class = "container-consulta">
+    <a class="link-consulta" href="../pages/cadastro-novo.html">+ Nova Consulta</a>
+    <a class="link-consulta" href="../pages/menu.html">Voltar Para o Menu</a>
+    </div>
+  
+  <script>
+    function salvarNoStorage(objeto) {
+    localStorage.setItem("dados", JSON.stringify(objeto));
+  }
+
+  function carregarDoStorage() {
+    return JSON.parse(localStorage.getItem("dados")) || { livros: [] };
+  }
+
+    const dados = JSON.parse(localStorage.getItem("dados")) || { livros: []};
+    
+    const tableLivros = document.getElementById("lista-livros");
+
+    dados.livros.forEach(a => {
+      let tr =document.createElement("tr");
+      
+      
+      let tdId = document.createElement("td");
+      let tdTitulo = document.createElement("td");
+      let tdIsbn = document.createElement("td");
+      let tdCategoria = document.createElement("td");
+      let tdAutor = document.createElement("td");
+      let tdAno = document.createElement("td");
+      let tdEditar = document.createElement("td");
+      let tdExcluir = document.createElement("td");
+      
+      tdId.textContent = a.id;
+      tdTitulo.textContent = a.titulo;
+      tdIsbn.textContent = a.isbn;
+      tdCategoria.textContent = a.categoria;
+      tdAutor.textContent = a.autor;
+      tdAno.textContent = a.ano;
+      
+      //———————– Editar ———————–
+
+      const btnEditar = document.createElement("button");
+
+      btnEditar.textContent = "Editar";
+      btnEditar.addEventListener("click", () => editar(a.id));
+      tdEditar.appendChild(btnEditar);
+
+
+      /*function editarLivro(index) {
+      const livro = dados.livros[index];
+      
+      // Redireciona para a página de cadastro com os dados do livro
+      localStorage.setItem('livroEditando', JSON.stringify({
+        ...livro,
+        index: index
+      }));
+      */
+      // ———————– Excluir ———————–
+      const btnExcluir = document.createElement("button");
+      btnExcluir.textContent = "Excluir";
+      btnExcluir.addEventListener("click", () => excluir(a.id));
+      tdExcluir.appendChild(btnExcluir);
+
+      
+      tr.appendChild(tdId);
+      tr.appendChild(tdTitulo);
+      tr.appendChild(tdIsbn);
+      tr.appendChild(tdCategoria);
+      tr.appendChild(tdAutor);
+      tr.appendChild(tdAno);
+      tr.appendChild(tdEditar);
+      tr.appendChild(tdExcluir);
+
+      tableLivros.appendChild(tr);
+
+      function editar(id) {
+    const dados   = carregarDoStorage();
+    const livro   = dados.livros.find(l => l.id === id);
+    if (!livro) return alert("Livro não encontrado.");
+
+    // Prompt simples; pode repetir para cada campo
+    livro.titulo    = prompt("Novo título:",    livro.titulo)    || livro.titulo;
+    livro.isbn      = prompt("Novo ISBN:",      livro.isbn)      || livro.isbn;
+    livro.categoria = prompt("Nova categoria:", livro.categoria) || livro.categoria;
+    livro.autor     = prompt("Novo autor:",     livro.autor)     || livro.autor;
+    livro.ano       = prompt("Novo ano:",       livro.ano)       || livro.ano;
+
+    salvarNoStorage(dados);
+    location.reload();
+  }
+
+
+      function excluir(id){
+    if (!confirm("Deseja realmente excluir este livro?")) return;
+    const dados = carregarDoStorage();
+    dados.livros = dados.livros.filter(l => l.id !== id);
+    salvarNoStorage(dados);
+    location.reload();
+  }
+
+  } );
+      
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro</title>
+</head>
+<body>
+  <h1>Cadastro</h1>
+
+  <h2>Cadastrar Aluno</h2>
+  <form id="formAluno">
+    <input type="text" id="nomeAluno" placeholder="Nome do Aluno" required>
+    <input type="text" id="cursoAluno" placeholder="Curso do Aluno" required>
+    <button type="submit">Salvar Aluno</button>
+  </form>
+
+  
+
+  <p><a href="listaAluno.html">Ir para listagem</a></p>
+
+  <script>
+    
+    function salvarNoStorage(objeto) {
+      localStorage.setItem("dados", JSON.stringify(objeto));
+    }
+
+    function carregarDoStorage() {
+      return JSON.parse(localStorage.getItem("dados")) || { alunos: [], disciplinas: []};
+    }
+
+    
+    document.getElementById("formAluno").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const dados = carregarDoStorage();
+      let nome = document.getElementById("nomeAluno").value;
+      let curso = document.getElementById("cursoAluno").value;
+
+      if (nome.length < 4) {
+        alert("O nome do aluno deve ter pelo menos 4 caracteres!");
+        return;
+      }
+
+      const novoAluno = { id: dados.alunos.length + 1, nome, curso };
+      dados.alunos.push(novoAluno);
+      salvarNoStorage(dados);
+      alert("Aluno cadastrado!");
+      this.reset();
+      
+    });
+
+    
+  </script>
+</body>
+</html>

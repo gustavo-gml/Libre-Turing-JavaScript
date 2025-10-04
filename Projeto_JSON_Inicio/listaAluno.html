@@ -14,12 +14,12 @@
 
   <script>
 
-    const dados = JSON.parse(localStorage.getItem("dados")) || { livros: [], alunos: []};
+    const dados = JSON.parse(localStorage.getItem("dados")) || { alunos: [], disciplinas: []};
     
     const ulAlunos = document.getElementById("listaAlunos");
-    dados.livros.forEach(a => {
+    dados.alunos.forEach(a => {
       let li = document.createElement("li");
-      li.textContent = `${a.id} - ${a.titulo} (${a.categoria})`;
+      li.textContent = `${a.id} - ${a.nome} (${a.curso})`;
       ulAlunos.appendChild(li);
     });
 

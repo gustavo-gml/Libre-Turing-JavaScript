@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Listagem</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <h1>Listagem de Usuários</h1>
+  
+  <div class="container-tabela">
+  <table >
+    <thead id = "teste">
+      <th>RA</th>
+      <th>Nome Aluno</th>
+      <th>CPF</th>
+      <th>E-mail</th>
+      <th>Data De Nascimento</th>
+      <th>Telefone</th>
+      <th>Curso</th>
+    </thead>
+    <tbody id ="table-Alunos">
+      
+    </tbody>
+    
+  </table>
+  </div>
+  <div class = "container-consulta">
+    <a class="link-consulta" href="../pages/consulta-usuario.html">+ Nova Consulta</a>
+    <a class="link-consulta" href="../pages/menu.html">Voltar Para o Menu</a>
+    </div>
+  
+  <script>
+    function salvarNoStorage(objeto) {
+    localStorage.setItem("dados", JSON.stringify(objeto));
+  }
+
+  function carregarDoStorage() {
+    return JSON.parse(localStorage.getItem("dados")) || {alunos: []};
+  }
+
+    const dados = carregarDoStorage();
+    
+    const tableAlunos = document.getElementById("table-Alunos");
+
+    dados.alunos.forEach(a => {
+      let tr =document.createElement("tr");
+      
+      
+      let tdRa = document.createElement("td");
+      let tdNomeAluno = document.createElement("td");
+      let tdCpf = document.createElement("td");
+      let tdEmail = document.createElement("td");
+      let tdDataDeNascimento = document.createElement("td");
+      let tdTelefone = document.createElement("td");
+      let tdCurso = document.createElement("td");
+      
+      tdRa.textContent = a.ra;
+      tdNomeAluno.textContent = a.nome;
+      tdCpf.textContent = a.cpf;
+      tdEmail.textContent = a.email;
+      tdDataDeNascimento.textContent = a.dataNascimento;
+      tdTelefone.textContent = a.telefone || "Não informado";
+      tdCurso.textContent = a.curso;
+      
+      tr.appendChild(tdRa);
+      tr.appendChild(tdNomeAluno);
+      tr.appendChild(tdCpf);
+      tr.appendChild(tdEmail);
+      tr.appendChild(tdDataDeNascimento);
+      tr.appendChild(tdTelefone);
+      tr.appendChild(tdCurso);
+
+      tableAlunos.appendChild(tr);
+
+  });
+  </script>
+
+</body>
+</html>

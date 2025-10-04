@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-   <!-- <div class="container">
+       <div class="container">
         <a href="cadastro-livro.html" class="back-link">← Voltar</a>
         <section id="cadastro-livro">
             <h2>Cadastro de Livro</h2>
@@ -24,19 +24,16 @@
                 <input type="text" id="cadastro-autor-livro" name="cadastro-autor-livro" placeholder="Digite o nome do autor">
 
                 <label for="cadastro-categoria-livro">Categoria do Livro</label>
-                <input type="text" id="cadastro-categoria-livro" name="cadastro-categoria-livro" placeholder="Digite a categoria do livro">
+                <input type="text" id="cadastro-categoria-livro" name="cadastro-categoria-livro" placeholder="Digite a categoria do livro" required>
 
                 <label for="cadastro-ano-livro">Ano do Livro</label>
                 <input type="number" id="cadastro-ano-livro" name="cadastro-ano-livro" placeholder="Digite o ano de publicação do livro" step="1">
 
                 <button type="submit">Cadastrar Novo Título</button>
-            </form>-->
-            <form id="form-cadastro-livro">
-            <input type="text" id="cadastro-nome-livro" placeholder="Nome do Aluno" required>
-            <input type="text" id="cadastro-categoria-livro" placeholder="Curso do Aluno" required>
-            <button type="submit">Salvar Aluno</button>
-  </form>
-            <a href="listaAluno.html">Ir para a listagem</a>
+            
+           
+
+            
 
         
 
@@ -47,21 +44,34 @@
     }
 
     function carregarDoStorage() {
-            // Esta é a forma segura que não quebra o código.
-            // Se não houver "dados", ele usa a string '{"alunos":[]}' como padrão.
-            return JSON.parse(localStorage.getItem("dados") || '{"alunos": []}');
-        }
+  return JSON.parse(localStorage.getItem("dados") || '{"livros": []}');
+}
+
 
     
     document.getElementById("form-cadastro-livro").addEventListener("submit", function(e) {
       e.preventDefault();
       const dados = carregarDoStorage();
       let titulo = document.getElementById("cadastro-nome-livro").value;
+      let isbn = document.getElementById("cadastro-isbn-livro").value;
       let categoria = document.getElementById("cadastro-categoria-livro").value;
-
+      let autor = document.getElementById("cadastro-autor-livro").value;
+      let ano = document.getElementById("cadastro-ano-livro").value;
       
+      if(autor === ""){
+        autor = "-";
+        autor.value = autor;
+      }
+      if(isbn === ""){
+        isbn = "-";
+        isbn.value = isbn;
+      }
+      if(ano === ""){
+        ano = "-";
+        ano.value = ano;
+      }
 
-      const novoLivro = { id: dados.livros.length + 1, titulo, categoria };
+      const novoLivro = { id: dados.livros.length + 1, titulo, isbn, categoria, autor, ano };
       dados.livros.push(novoLivro);
       salvarNoStorage(dados);
       alert("Livro cadastrado!");
