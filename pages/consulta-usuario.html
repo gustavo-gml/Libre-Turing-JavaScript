@@ -20,7 +20,7 @@
                 <input type="text" id="consulta-ra-aluno" name="consulta-ra-aluno" placeholder="Digite o RA do aluno">
                 <span class="error-message" id="ra-error"></span>
                 <div class="container-botoes">
-                    <button type="submit">Consultar Usuário</button>
+                   <button type="submit" id="btn-consultar" class="botao-primario">Consultar Usuário</button>
                     <button type="submit" formaction="lista-usuario.html" class="botao-secundario">Lista Completa de Alunos cadastrados</button>
                 </div>
                 
@@ -28,7 +28,7 @@
         </section>
     </div>
     
-
+    <script src="../scripts/consulta-livro.js"></script>
     <script>
     // --- FUNÇÕES GLOBAIS DE DADOS (sem alteração) ---
 
@@ -69,7 +69,7 @@
         { ra: '20251940016', nome: 'EMANUEL PEREIRA BRITO', cpf: '22233344402', dataNascimento: '2006-10-30', curso: 'Sistemas de Informação', email: 'manu_o_deus_conosco@hotmail.com', telefone: '(35) 93333-4444' },
         { ra: '20251940012', nome: 'FELIPPE GIORDANY DE OLIVEIRA', cpf: '22233344403', dataNascimento: '2004-05-05', curso: 'Sistemas de Informação', email: 'felippe_com_dois_p@uol.com.br', telefone: '(35) 95555-6666' },
         { ra: '20251940010', nome: 'GABRIEL FELIPE DE SOUZA LUZ', cpf: '22233344404', dataNascimento: '2005-12-24', curso: 'Sistemas de Informação', email: 'gabriel_anjo_da_luz@gmail.com', telefone: null },
-        { ra: '20251940001', nome: 'GUSTAVO MARTINS DE LIMA', cpf: '22233344405', dataNascimento: '2006-06-16', curso: 'Sistemas de Informação', email: 'guga_de_lima_a_fruta@gmail.com', telefone: '(35) 97777-8888' },
+        { ra: '20251940001', nome: 'GUSTAVO MARTINS DE LIMA', cpf: '22233344405', dataNascimento: '2006-06-16', curso: 'Sistemas de Informação', email: 'gugu_de_lima_a_fruta@gmail.com', telefone: '(35) 97777-8888' },
         { ra: '20251940015', nome: 'GUSTAVO TEODORO DA COSTA', cpf: '22233344406', dataNascimento: '2004-09-21', curso: 'Sistemas de Informação', email: 'teodoro_da_costa_rica@yahoo.com', telefone: '(35) 99999-0000' },
         { ra: '20251940009', nome: 'HALLISON JANUARIO MARTINS MARIA', cpf: '22233344407', dataNascimento: '2005-01-01', curso: 'Sistemas de Informação', email: 'hallison_em_janeiro@gmail.com', telefone: '(35) 91010-2020' },
         { ra: '20251940034', nome: 'HUDSON MAURO LOPES FILHO', cpf: '33344455501', dataNascimento: '2005-08-11', curso: 'Sistemas de Informação', email: 'filho_do_hudson_mauro@hotmail.com', telefone: '(35) 93030-4040' },
@@ -101,7 +101,7 @@
 
       if (!dadosAtuais.alunos || dadosAtuais.alunos.length === 0) {
         console.log("Base de alunos não encontrada. Inicializando com a lista completa...");
-        dadosAtuais.alunos = listaDeAlunosPadrao;
+        dadosAtuais.alunos = listaAlunos;
         salvarDadosCompletos(dadosAtuais);
         console.log("Base de alunos inicializada com sucesso!");
       } else {
@@ -112,5 +112,7 @@
     // --- EXECUÇÃO ---
     inicializarBaseDeAlunos();
 </script>
+
+<script src="../scripts/consulta_user_validation.js"></script>
 </body>
 </html>
