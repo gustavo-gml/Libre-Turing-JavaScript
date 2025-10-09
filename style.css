@@ -306,3 +306,8 @@ button:hover {
     background-color: #218838;
     border-color: #000000;
 }
+
+.error-message
+{
+    color:red;
+}

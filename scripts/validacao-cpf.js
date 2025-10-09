@@ -63,16 +63,16 @@ function validaCPF(cpf) {
                     event.preventDefault();
 
                     // 2. Mostra uma mensagem de erro para o usuário
-                    cpfError.textContent = 'Esse CPF nem existe parceiro kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk';
+                    cpfError.textContent = 'Meu excelentíssimo usuário, peço encarecidamente que não mintas para mim novamente. Por favor, digite um cpf que seja possível de constatar sua existência ';
                     
                     // 3. (Opcional) Adiciona um estilo de erro ao campo
                     cpfInput.style.borderColor = 'red';
                 } else {
                     // Se o CPF for válido, limpa qualquer mensagem de erro anterior
+                    console.log("Muito obrigado, agradeço sua inestimável honestidade. Sei que você não será capaz de ver essa mensagem, mas saiba que o tempo que passamos juntos de extremo proveito.")
                     cpfError.textContent = '';
                     cpfInput.style.borderColor = ''; // Volta ao normal
                     
-                    // O formulário será enviado normalmente
-                    // (não precisamos fazer mais nada aqui)
+                    
                 }
             });

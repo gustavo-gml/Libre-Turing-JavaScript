@@ -27,7 +27,7 @@
   </table>
   </div>
   <div class = "container-consulta">
-    <a class="link-consulta" href="../pages/cadastro-novo.html">+ Nova Consulta</a>
+    <a class="link-consulta" href="../pages/consulta-livro.html">+ Nova Consulta</a>
     <a class="link-consulta" href="../pages/menu.html">Voltar Para o Menu</a>
     </div>
   
@@ -73,15 +73,7 @@
       tdEditar.appendChild(btnEditar);
 
 
-      /*function editarLivro(index) {
-      const livro = dados.livros[index];
       
-      // Redireciona para a página de cadastro com os dados do livro
-      localStorage.setItem('livroEditando', JSON.stringify({
-        ...livro,
-        index: index
-      }));
-      */
       // ———————– Excluir ———————–
       const btnExcluir = document.createElement("button");
       btnExcluir.textContent = "Excluir";
@@ -105,7 +97,7 @@
     const livro   = dados.livros.find(l => l.id === id);
     if (!livro) return alert("Livro não encontrado.");
 
-    // Prompt simples; pode repetir para cada campo
+    
     livro.titulo    = prompt("Novo título:",    livro.titulo)    || livro.titulo;
     livro.isbn      = prompt("Novo ISBN:",      livro.isbn)      || livro.isbn;
     livro.categoria = prompt("Nova categoria:", livro.categoria) || livro.categoria;
