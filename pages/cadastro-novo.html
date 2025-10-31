@@ -44,7 +44,24 @@
     }
 
     function carregarDoStorage() {
-  return JSON.parse(localStorage.getItem("dados") || '{"livros": []}');
+  const dadosJSON = localStorage.getItem("dados");
+  
+  if (dadosJSON) {
+    try {
+      const dados = JSON.parse(dadosJSON);
+      
+      // Garante que 'dados' é um objeto E que 'dados.livros' é um array
+      if (dados && Array.isArray(dados.livros)) {
+        return dados;
+      }
+    } catch (e) {
+      console.error("Erro ao ler dados do localStorage:", e);
+      // Se der erro no parse (JSON inválido), retorna o padrão abaixo
+    }
+  }
+  
+  // Retorna o valor padrão se não houver nada no storage ou se os dados forem inválidos
+  return { livros: [] };
 }
 
 
