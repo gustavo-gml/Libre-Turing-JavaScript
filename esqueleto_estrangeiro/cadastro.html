@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro</title>
+</head>
+
+<body>
+  <h1>Cadastro</h1>
+
+  <h2>Cadastrar Aluno</h2>
+  <form id="formAluno">
+    <input type="text" id="nomeAluno" placeholder="Nome do Aluno" required>
+    <input type="text" id="cursoAluno" placeholder="Curso do Aluno" required>
+    <button type="submit">Salvar Aluno</button>
+  </form>
+
+  <h2>Cadastrar Disciplina</h2>
+  <form id="formDisciplina">
+    <input type="text" id="nomeDisciplina" placeholder="Nome da Disciplina" required>
+    <input type="number" id="cargaHoraria" placeholder="Carga Horária" required>
+    <button type="submit">Salvar Disciplina</button>
+  </form>
+
+  <h2>Matricular Aluno em Disciplina</h2>
+  <form id="formMatricula">
+    <select id="selectAluno"></select>
+    <select id="selectDisciplina"></select>
+    <button type="submit">Matricular</button>
+  </form>
+
+
+
+  <p><a href="consulta.html">Ir para listagem</a></p>
+
+  <script>
+
+    // Converte o objeto JavaScript em uma string JSON e salva no localStorage sob a chave "dados".
+    function salvarNoStorage(objeto) {
+      localStorage.setItem("dados", JSON.stringify(objeto));
+    }
+
+    function carregarDoStorage() {
+      return JSON.parse(localStorage.getItem("dados")) || { alunos: [], disciplinas: [], matriculas: [] };
+    }
+
+    function atualizarSelects() {
+      const dados = carregarDoStorage();
+      const selectAluno = document.getElementById("selectAluno");
+      const selectDisciplina = document.getElementById("selectDisciplina");
+
+      selectAluno.innerHTML = "";
+      selectDisciplina.innerHTML = "";
+
+      dados.alunos.forEach(a => {
+        let opt = document.createElement("option");
+        opt.value = a.id;
+        opt.textContent = `${a.nome} (${a.curso})`;
+        selectAluno.appendChild(opt);
+      });
+
+      dados.disciplinas.forEach(d => {
+        let opt = document.createElement("option");
+        opt.value = d.id;
+        opt.textContent = `${d.nome} (${d.carga}h)`;
+        selectDisciplina.appendChild(opt);
+      });
+    }
+
+
+
+    // CADASTRO DE ALUNO
+    document.getElementById("formAluno").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const dados = carregarDoStorage();
+      let nome = document.getElementById("nomeAluno").value;
+      let curso = document.getElementById("cursoAluno").value;
+
+      if (nome.length < 4) {
+        alert("O nome do aluno deve ter pelo menos 4 caracteres!");
+        return;
+      }
+
+      // Cria um novo objeto representando o aluno
+      const novoAluno = { id: dados.alunos.length + 1, nome, curso };
+      dados.alunos.push(novoAluno);
+      // Salva todo o objeto "dados" atualizado no localStorage do navegador
+      salvarNoStorage(dados);
+      alert("Aluno cadastrado!");
+      this.reset(); // Reseta o formulário, limpando os dados.
+      atualizarSelects();
+
+    });
+
+    // CADASTRO DE DISCIPLINA
+    document.getElementById("formDisciplina").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const dados = carregarDoStorage();
+      let nome = document.getElementById("nomeDisciplina").value;
+      let carga = document.getElementById("cargaHoraria").value;
+
+      const novaDisciplina = { id: dados.disciplinas.length + 1, nome, carga };
+      dados.disciplinas.push(novaDisciplina);
+      salvarNoStorage(dados);
+      alert("Disciplina cadastrada!");
+      this.reset();
+      atualizarSelects();
+    });
+
+    // MATRÍCULA
+    document.getElementById("formMatricula").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const dados = carregarDoStorage();
+      const alunoId = parseInt(document.getElementById("selectAluno").value);
+      const disciplinaId = parseInt(document.getElementById("selectDisciplina").value);
+
+      // Evitar duplicata
+      if (dados.matriculas.some(m => m.alunoId === alunoId && m.disciplinaId === disciplinaId)) {
+        alert("Aluno já está matriculado nesta disciplina!");
+        return;
+      }
+
+      dados.matriculas.push({ alunoId, disciplinaId });
+      salvarNoStorage(dados);
+      alert("Matrícula realizada!");
+    });
+
+    atualizarSelects();
+
+
+  </script>
+</body>
+
+</html>

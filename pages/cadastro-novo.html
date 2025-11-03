@@ -1,87 +1,109 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Livro - Libre Turing</title>
-    <link rel="stylesheet" href="../style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro de Livro - Libre Turing</title>
+  <link rel="stylesheet" href="../style.css">
 </head>
+
 <body>
-       <div class="container">
-        <a href="cadastro-livro.html" class="back-link">← Voltar</a>
-        <section id="cadastro-livro">
-            <h2>Cadastro de Livro</h2>
-            <p>Adicione os dados para a catalogação de um novo título</p>
+  <div class="container">
+    <a href="cadastro-livro.html" class="back-link">← Voltar</a>
+    <section id="cadastro-livro">
+      <h2>Cadastro de Livro</h2>
+      <p>Adicione os dados para a catalogação de um novo título</p>
 
-            <form class="form-login" id="form-cadastro-livro">
-                <label for="cadastro-nome-livro">Nome do Livro</label>
-                <input type="text" id="cadastro-nome-livro" name="cadastro-nome-livro" placeholder="Digite o nome do livro" required>
+      <form class="form-login" id="form-cadastro-livro">
+        <label for="cadastro-nome-livro">Nome do Livro</label>
+        <input type="text" id="cadastro-nome-livro" name="cadastro-nome-livro" placeholder="Digite o nome do livro"
+          required>
 
-                <label for="cadastro-isbn-livro">ISBN do Livro</label>
-                <input type="text" id="cadastro-isbn-livro" name="cadastro-isbn-livro" placeholder="Digite o ISBN do livro">
-                <span class="error-message" id="is-error"></span>
+        <label for="cadastro-isbn-livro">ISBN do Livro</label>
+        <input type="text" id="cadastro-isbn-livro" name="cadastro-isbn-livro" placeholder="Digite o ISBN do livro">
 
-                <label for="cadastro-autor-livro">Autor do Livro</label>
-                <input type="text" id="cadastro-autor-livro" name="cadastro-autor-livro" placeholder="Digite o nome do autor">
+        <label for="cadastro-autor-livro">Autor do Livro</label>
+        <input type="text" id="cadastro-autor-livro" name="cadastro-autor-livro" placeholder="Digite o nome do autor">
 
-                <label for="cadastro-categoria-livro">Categoria do Livro</label>
-                <input type="text" id="cadastro-categoria-livro" name="cadastro-categoria-livro" placeholder="Digite a categoria do livro" required>
+        <label for="cadastro-categoria-livro">Categoria do Livro</label>
+        <input type="text" id="cadastro-categoria-livro" name="cadastro-categoria-livro"
+          placeholder="Digite a categoria do livro" required>
 
-                <label for="cadastro-ano-livro">Ano do Livro</label>
-                <input type="number" id="cadastro-ano-livro" name="cadastro-ano-livro" placeholder="Digite o ano de publicação do livro" step="1">
+        <label for="cadastro-ano-livro">Ano do Livro</label>
+        <input type="number" id="cadastro-ano-livro" name="cadastro-ano-livro"
+          placeholder="Digite o ano de publicação do livro" step="1">
 
-                <button type="submit" id="cad">Cadastrar Novo Título</button>
-            
-           
-
-            
-
-        
-
-    <script>
-    
-    function salvarNoStorage(objeto) {
-      localStorage.setItem("dados", JSON.stringify(objeto));
-    }
-
-    function carregarDoStorage() {
-  return JSON.parse(localStorage.getItem("dados") || '{"livros": []}');
-}
+        <button type="submit">Cadastrar Novo Título</button>
 
 
-    
-    document.getElementById("form-cadastro-livro").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const dados = carregarDoStorage();
-      let titulo = document.getElementById("cadastro-nome-livro").value;
-      let isbn = document.getElementById("cadastro-isbn-livro").value;
-      let categoria = document.getElementById("cadastro-categoria-livro").value;
-      let autor = document.getElementById("cadastro-autor-livro").value;
-      let ano = document.getElementById("cadastro-ano-livro").value;
-      
-      if(autor === ""){
-        autor = "-";
-        autor.value = autor;
-      }
-      if(isbn === ""){
-        isbn = "-";
-        isbn.value = isbn;
-      }
-      if(ano === ""){
-        ano = "-";
-        ano.value = ano;
-      }
 
-      const novoLivro = { id: dados.livros.length + 1, titulo, isbn, categoria, autor, ano };
-      dados.livros.push(novoLivro);
-      salvarNoStorage(dados);
-      alert("Livro cadastrado!");
-      this.reset();
-      
-    });
 
-    
-  </script>
-  
+
+
+
+        <script>
+
+          function salvarNoStorage(objeto) {
+            localStorage.setItem("dados", JSON.stringify(objeto));
+          }
+
+          function carregarDoStorage() {
+            const dadosJSON = localStorage.getItem("dados");
+
+            if (dadosJSON) {
+              try {
+                const dados = JSON.parse(dadosJSON);
+
+                // Garante que 'dados' é um objeto E que 'dados.livros' é um array
+                if (dados && Array.isArray(dados.livros)) {
+                  return dados;
+                }
+              } catch (e) {
+                console.error("Erro ao ler dados do localStorage:", e);
+                // Se der erro no parse (JSON inválido), retorna o padrão abaixo
+              }
+            }
+
+            // Retorna o valor padrão se não houver nada no storage ou se os dados forem inválidos
+            return { livros: [] };
+          }
+
+
+
+          document.getElementById("form-cadastro-livro").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const dados = carregarDoStorage();
+            let titulo = document.getElementById("cadastro-nome-livro").value;
+            let isbn = document.getElementById("cadastro-isbn-livro").value;
+            let categoria = document.getElementById("cadastro-categoria-livro").value;
+            let autor = document.getElementById("cadastro-autor-livro").value;
+            let ano = document.getElementById("cadastro-ano-livro").value;
+
+            if (autor === "") {
+              autor = "-";
+              autor.value = autor;
+            }
+            if (isbn === "") {
+              isbn = "-";
+              isbn.value = isbn;
+            }
+            if (ano === "") {
+              ano = "-";
+              ano.value = ano;
+            }
+
+
+            const novoLivro = { id: dados.livros.length + 1, titulo, isbn, categoria, autor, ano };
+            dados.livros.push(novoLivro);
+            salvarNoStorage(dados);
+            alert("Livro cadastrado!");
+            this.reset();
+
+          });
+
+
+        </script>
 </body>
+
 </html>
