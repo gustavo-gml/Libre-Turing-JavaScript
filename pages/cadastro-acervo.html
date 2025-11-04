@@ -24,7 +24,7 @@
         <select id="select-livro"></select>
 
         <label for="select-isbn">ISBN do Livro:</label>
-        <select id="select-isbn"></select>
+        <select id="select-isbn" disabled></select>
 
         <label for="codigo-barras">Código de Barras do Livro:</label>
         <input type="text" id="codigo-barras">
@@ -46,7 +46,15 @@
 
 
     function carregarDoStorage() {
-      return JSON.parse(localStorage.getItem("dados")) || { livros: [], acervo: [] };
+      const dados = JSON.parse(localStorage.getItem("dados")) || {};
+      // Garante que as chaves 'livros' e 'acervo' sempre existam
+      if (!dados.livros) {
+          dados.livros = [];
+      }
+      if (!dados.acervo) {
+          dados.acervo = [];
+      }
+      return dados;
     }
 
     function atualizarSelects() {
@@ -54,51 +62,76 @@
       const selectlivro = document.getElementById("select-livro");
       const selectisbn = document.getElementById("select-isbn");
 
-
-      selectlivro.innerHTML = "";
-      selectisbn.innerHTML = "";
+      // Limpa os selects e adiciona uma opção padrão
+      selectlivro.innerHTML = '<option value="">Selecione um livro</option>';
+      selectisbn.innerHTML = '<option value="">ISBN aparecerá aqui</option>';
 
       dados.livros.forEach(l => {
-        let optnome = document.createElement("option");
-        optnome.value = l.titulo;
-        optnome.textContent = l.titulo;
-        selectlivro.appendChild(optnome);
-      });
+      let optnome = document.createElement("option");
+      // O VALOR da opção será o ISBN (nossa "chave estrangeira")
+      optnome.value = l.isbn;
+      // O TEXTO da opção será o Título (o que o usuário vê)
+      optnome.textContent = l.titulo;
+      selectlivro.appendChild(optnome);
+    });
 
-      dados.livros.forEach(i => {
-        let optIsbn = document.createElement("option");
-        optIsbn.value = i.isbn;
-        optIsbn.textContent = i.isbn;
-        selectisbn.appendChild(optIsbn);
-      })
+  }
+
+  //Novo Evento "change"
+  // Adiciona um "ouvinte" ao select de livro
+  document.getElementById("select-livro").addEventListener("change", function () {
+    const selectisbn = document.getElementById("select-isbn");
+    // "this.value" é o ISBN foi colocado no value no forEach do atualizar select
+    const isbnSelecionado = this.value;
+
+    // Limpa o select de ISBN
+    selectisbn.innerHTML = "";
+
+    if (isbnSelecionado) {
+      // Se um livro foi selecionado, cria a opção de ISBN
+      let optIsbn = document.createElement("option");
+      optIsbn.value = isbnSelecionado;
+      optIsbn.textContent = isbnSelecionado;
+      selectisbn.appendChild(optIsbn);
+    } else {
+      // Se o usuário voltou para "Selecione um livro"
+      selectisbn.innerHTML = '<option value="">ISBN aparecerá aqui</option>';
+    }
+  });
+
+
+  document.getElementById("cadastroAcervo").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const dados = carregarDoStorage();
+
+    const selectLivroEl = document.getElementById("select-livro");
+
+    // Pega o TEXTO do item selecionado (Ex: "O Senhor dos Anéis")
+    let nome = selectLivroEl.options[selectLivroEl.selectedIndex].text;
+    // Pega o VALOR do select de ISBN (Ex: "978-...")
+    let isbn = document.getElementById("select-isbn").value;
+    let codigoBarras = document.getElementById("codigo-barras").value;
+    let data = document.getElementById("data-aquisicao").value;
+
+    // Validação para garantir que um livro foi selecionado
+    if (!isbn) {
+        alert("Por favor, selecione um livro da lista.");
+        return;
     }
 
+    const novoAcervo = { id: dados.acervo.length + 1, nome, isbn, codigoBarras, data };
+    dados.acervo.push(novoAcervo);
+
+    salvarNoStorage(dados);
+    alert("Exemplar cadastrado!");
+    this.reset(); //Limpar formulário
+    
+    // Reseta os selects para o estado inicial
     atualizarSelects();
+  });
 
-
-    // Aqui estou cadastrando o acervo (novo objeto)
-
-
-    document.getElementById("cadastroAcervo").addEventListener("submit", function (e) {
-      e.preventDefault();
-      const dados = carregarDoStorage();
-      let nome = document.getElementById("select-livro").value;
-      let isbn = document.getElementById("select-isbn").value;
-      let codigoBarras = document.getElementById("codigo-barras").value;
-      let data = document.getElementById("data-aquisicao").value;
-
-      // Está rodando até aqui, depois ele não chega e não sei o pq ainda (alert não executa)
-
-      const novoAcervo = { id: dados.acervo.length + 1, nome, isbn, codigoBarras, data };
-      dados.acervo.push(novoAcervo);
-      //Aqui estou salvando os dados no novo objeto
-      salvarNoStorage(dados);
-      alert("Exemplar cadastrado!");
-      this.reset(); //Limpar
-      atualizarSelects();
-      
-    });
-    atualizarSelects();
+  // Inicia a página
+  atualizarSelects();
     
   </script>
 </body>
