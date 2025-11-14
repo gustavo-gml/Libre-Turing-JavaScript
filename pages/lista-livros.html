@@ -7,7 +7,9 @@
 </head>
 <body>
   <h1>Listagem de Livros</h1>
-  
+  <form >
+      <input id = "texto-form" type="text">
+  </form>
   <div class="container-tabela">
   <table >
     <thead id = "teste">
@@ -40,9 +42,38 @@
     return JSON.parse(localStorage.getItem("dados")) || { livros: [] };
   }
 
+
     const dados = JSON.parse(localStorage.getItem("dados")) || { livros: []};
-    
     const tableLivros = document.getElementById("lista-livros");
+
+    /*document.getElementById("texto-form").addEventListener("input", function(c){
+    c.preventDefault();
+    let nome = document.getElementById("texto-form").value
+    });*/
+    
+   const campoBusca = document.getElementById("texto-form");
+
+campoBusca.addEventListener("input", function (e) {
+    
+    e.preventDefault();
+    const texto = campoBusca.value.toLowerCase();
+    const linhas = document.querySelectorAll("#lista-livros tr");
+
+    linhas.forEach(tr => {
+        const colunaTitulo = tr.querySelectorAll("td")[1]; // segunda coluna
+
+        if (!colunaTitulo) return;
+
+        const titulo = colunaTitulo.textContent.toLowerCase();
+
+        if (titulo.includes(texto)) {
+            tr.style.display = "";
+        } else {
+            tr.style.display = "none";
+        }
+    });
+});
+
 
     dados.livros.forEach(a => {
       let tr =document.createElement("tr");

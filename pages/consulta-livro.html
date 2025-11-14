@@ -15,7 +15,7 @@
             <h2>Consulta de Livro</h2>
             <p>Digite o nome do livro para realizar a consulta</p>
             
-            <form method="get" id="form-nome">
+            <form method="post" id="form-nome">
                 <label for="consulta-livro">Nome do Livro:</label>
                 <input type="text" id="consulta-livro" name="consulta-livro" placeholder="Digite o nome do livro">
                 <span class="error-message" id="name-error"></span>
@@ -23,9 +23,9 @@
                 <div class="container-botoes">
 
                 <button type="submit" id="consulta-nome-livro" class="botao-primario">Consultar Livro</button>
-
-                <button type="submit" formaction="lista-livros.html" class="botao-secundario">Lista Completa de Livros Registrados</button>
-
+                
+                <button type="button" onclick="window.location.href='lista-livros.html'">Teste</button>
+                
                 </div>
             </form>
                 
