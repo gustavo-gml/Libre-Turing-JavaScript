@@ -171,6 +171,15 @@ button:hover {
     box-sizing: border-box; 
 }
 
+.form-login select{
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box; 
+}
+
 /*Cadastro de livro*/
 .cadastro-grid {
     display: grid;

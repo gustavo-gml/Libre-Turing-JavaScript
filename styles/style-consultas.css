@@ -1,0 +1,131 @@
+@charset "UTF-8";
+/* --- ESTILOS DE TABELA E CONSULTA --- */
+
+/* 1. Container da Tabela */
+.container-tabela {
+    overflow-x: auto; 
+    background-color: #ffffff;
+    border-radius: 0.8rem; /* 8px */
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1); /* 10px */
+    margin-top: 2rem; 
+    padding: 0.5rem;
+}
+
+/* 2. Estilo Geral da Tabela */
+.container-tabela table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    color: #333;
+}
+
+/* 3. Estilo do Cabeçalho (thead) */
+.container-tabela thead {
+    background-color: #28a745;
+    color: #ffffff;
+}
+
+/* 4. Estilo das Células (th e td) */
+.container-tabela th,
+.container-tabela td {
+    padding: 0.75rem 1rem; 
+    vertical-align: middle; 
+}
+
+/* 'em' é mantido pois é relativo ao font-size do th */
+.container-tabela th {
+    font-weight: bold;
+    text-transform: uppercase; 
+    font-size: 0.85em;
+    letter-spacing: 0.05rem; /* 0.5px */
+}
+
+/* 5. Estilo das Linhas do Corpo (tbody) */
+.container-tabela tbody tr {
+    border-bottom: 0.1rem solid #eeeeee; /* 1px */
+}
+.container-tabela tbody tr:last-of-type {
+    border-bottom: none;
+}
+
+/* 6. Linhas Alternadas */
+.container-tabela tbody tr:nth-of-type(even) {
+    background-color: #f9f9f9;
+}
+
+/* 7. Efeito Hover */
+.container-tabela tbody tr:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+/* --- LINKS DE CONSULTA (Abaixo da tabela) --- */
+
+.container-consulta {
+    display: flex;
+    gap: 1rem; /* 10px */
+    margin-top: 1rem;
+}
+
+.link-consulta {
+    background-color: #28a745;
+    color: white;
+    border: 0.2rem solid #28a745; /* 2px */
+    border-radius: 0.4rem; /* 4px */
+    cursor: pointer;
+    width: auto;
+    padding: 0.3em 1.25em; /* 'em' é mantido */
+    transition: all 0.3s ease;
+    text-decoration: none;
+    font-size: 1.6rem; /* 16px */
+    font-weight: bold;
+}
+
+.link-consulta:hover {
+    background-color: #218838;
+    border-color: #000000;
+}
+
+/* --- BARRA DE BUSCA COM ÍCONE --- */
+
+/* 1. O container (o <form>) */
+.form-busca-container {
+  position: relative; /* Fundamental para o ícone 'flutuar' dentro */
+  margin-bottom: 2rem; /* Mantém o espaçamento que o input tinha */
+}
+
+/* 2. O ícone SVG */
+.form-busca-container svg {
+  position: absolute; /* Coloca o ícone flutuando sobre o container */
+  left: 1.5rem;       /* Distância da esquerda (15px) */
+  top: 50%;           /* Alinhamento vertical */
+  transform: translateY(-50%); /* Ajuste fino do alinhamento */
+  width: 1.8rem;      /* Tamanho do ícone (18px) */
+  height: 1.8rem;
+  fill: #aaa;         /* Cor do ícone (cinza) */
+  transition: fill 0.2s ease; /* Transição suave da cor */
+}
+
+/* 3. O <input> dentro do container */
+.form-busca-container input{
+  /* O mais importante: espaço para o ícone! */
+  padding-left: 4.5rem; /* 45px (15px da margem + 18px do ícone + 12px de respiro) */
+  
+  /* Estilos de 'beleza' */
+  border: 0.1rem solid #ccc;
+  border-radius: 0.8rem; /* Cantos mais arredondados */
+  box-shadow: 0 0.1rem 0.3rem rgba(0,0,0,0.04); /* Sombra suave */
+  margin-bottom: 0; /* O <form> container já tem a margem */
+}
+
+/* 4. Efeito de Foco (quando o usuário clica) */
+.form-busca-container input:focus {
+  border-color: #28a745; /* Borda fica verde (cor do seu projeto) */
+  box-shadow: 0 0 0 0.3rem rgba(40, 167, 69, 0.25); /* 'Brilho' verde */
+  outline: none; /* Remove o contorno padrão feio */
+}
+
+/* 5. Mágica extra: O ícone muda de cor junto com o foco! */
+.form-busca-container:focus-within svg {
+  fill: #28a745; /* Ícone fica verde */
+}

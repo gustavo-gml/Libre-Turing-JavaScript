@@ -1,39 +1,171 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consulta de Livros - Libre Turing</title>
-    <link rel="stylesheet" href="../style.css">
-    <link rel="icon" type="image/png" href="../images/favicon.ico">
-    
+  <meta charset="UTF-8">
+  <title>Listagem</title>
+  <link rel="stylesheet" href="../styles/style-global.css">
+  <link rel="stylesheet" href="../styles/style-consultas.css">
 </head>
 <body>
-    <div class="container">
-        <a href="menu.html" class="back-link">← Voltar ao Menu</a>
-        <section id="consulta-livro">
-            <h2>Consulta de Livro</h2>
-            <p>Digite o nome do livro para realizar a consulta</p>
-            
-            <form method="post" id="form-nome">
-                <label for="consulta-livro">Nome do Livro:</label>
-                <input type="text" id="consulta-livro" name="consulta-livro" placeholder="Digite o nome do livro">
-                <span class="error-message" id="name-error"></span>
+  <h1>Listagem de Livros</h1>
 
-                <div class="container-botoes">
+  <form id = "form-busca-livro" class="form-busca-container">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M10 2a8 8 0 1 0 5.657 13.657l5.385 5.385 1.414-1.414-5.385-5.385A8 8 0 0 0 10 2Zm0 2a6 6 0 1 1 0 12A6 6 0 0 1 10 4Z"></path>
+      </svg>
+      <input id = "texto-form" type="text" placeholder="Buscar por nome do livro...">
+  </form>
 
-                <button type="submit" id="consulta-nome-livro" class="botao-primario">Consultar Livro</button>
-                
-                <button type="button" onclick="window.location.href='lista-livros.html'">Teste</button>
-                
-                </div>
-            </form>
-                
-        </section>
+  <div class="container-tabela">
+  <table >
+    <thead id = "teste">
+      <th>Id</th>
+      <th>Titulo</th>
+      <th>ISBN</th>
+      <th>Categoria</th>
+      <th>Autor</th>
+      <th>Ano</th>
+      <th>Editar</th>
+      <th>Excluir</th>
+    </thead>
+    <tbody id ="lista-livros">
+      
+    </tbody>
+    
+  </table>
+  </div>
+  <div class = "container-consulta">
+    <a class="link-consulta" href="../pages/menu.html">Voltar Para o Menu</a>
     </div>
+  
+  <script>
+    function salvarNoStorage(objeto) {
+    localStorage.setItem("dados", JSON.stringify(objeto));
+    }
 
-    <script src="../scripts/consulta-livro.js"></script>
+    function carregarDoStorage() {
+      return JSON.parse(localStorage.getItem("dados")) || { livros: [] };
+    }
 
-    <script src="../scripts/pay.js"></script>
+
+    const dados = JSON.parse(localStorage.getItem("dados")) || { livros: []};
+    const tableLivros = document.getElementById("lista-livros");
+
+    
+    //Atualiza a lista conforme o que é digitado no campo de busca
+    const campoBusca = document.getElementById("texto-form");
+
+    campoBusca.addEventListener("input", function (e) {
+    
+      
+
+      const texto = campoBusca.value.toLowerCase();
+      const linhas = document.querySelectorAll("#lista-livros tr");
+
+      linhas.forEach(tr => {
+        const colunaTitulo = tr.querySelectorAll("td")[1]; // segunda coluna
+
+        if (!colunaTitulo) return;
+
+        const titulo = colunaTitulo.textContent.toLowerCase();
+
+        if (titulo.includes(texto)) {
+            tr.style.display = "";
+        } else {
+            tr.style.display = "none";
+        }
+      });
+    });
+
+
+    //Bloqueia o envio de formulário
+    const envioForm = document.getElementById("form-busca-livro")
+
+    envioForm.addEventListener("submit", function(e){
+
+      e.preventDefault()
+    })
+
+
+    dados.livros.forEach(a => {
+
+      let tr =document.createElement("tr");
+      
+      
+      let tdId = document.createElement("td");
+      let tdTitulo = document.createElement("td");
+      let tdIsbn = document.createElement("td");
+      let tdCategoria = document.createElement("td");
+      let tdAutor = document.createElement("td");
+      let tdAno = document.createElement("td");
+      let tdEditar = document.createElement("td");
+      let tdExcluir = document.createElement("td");
+      
+      tdId.textContent = a.id;
+      tdTitulo.textContent = a.titulo;
+      tdIsbn.textContent = a.isbn;
+      tdCategoria.textContent = a.categoria;
+      tdAutor.textContent = a.autor;
+      tdAno.textContent = a.ano;
+      
+      //———————– Editar ———————–
+
+      const btnEditar = document.createElement("button");
+
+      btnEditar.textContent = "Editar";
+      btnEditar.addEventListener("click", () => editar(a.id));
+      tdEditar.appendChild(btnEditar);
+
+
+      
+      // ———————– Excluir ———————–
+      const btnExcluir = document.createElement("button");
+      btnExcluir.textContent = "Excluir";
+      btnExcluir.addEventListener("click", () => excluir(a.id));
+      tdExcluir.appendChild(btnExcluir);
+
+      
+      tr.appendChild(tdId);
+      tr.appendChild(tdTitulo);
+      tr.appendChild(tdIsbn);
+      tr.appendChild(tdCategoria);
+      tr.appendChild(tdAutor);
+      tr.appendChild(tdAno);
+      tr.appendChild(tdEditar);
+      tr.appendChild(tdExcluir);
+
+      tableLivros.appendChild(tr);
+
+      
+
+    });
+
+    function editar(id) {
+        const dados   = carregarDoStorage();
+        const livro   = dados.livros.find(l => l.id === id);
+        if (!livro) return alert("Livro não encontrado.");
+
+    
+        livro.titulo    = prompt("Novo título:",    livro.titulo)    || livro.titulo;
+        livro.isbn      = prompt("Novo ISBN:",      livro.isbn)      || livro.isbn;
+        livro.categoria = prompt("Nova categoria:", livro.categoria) || livro.categoria;
+        livro.autor     = prompt("Novo autor:",     livro.autor)     || livro.autor;
+        livro.ano       = prompt("Novo ano:",       livro.ano)       || livro.ano;
+
+        salvarNoStorage(dados);
+        location.reload();
+      }
+
+
+      function excluir(id){
+        if (!confirm("Deseja realmente excluir este livro?")) return;
+        const dados = carregarDoStorage();
+        dados.livros = dados.livros.filter(l => l.id !== id);
+        salvarNoStorage(dados);
+        location.reload();
+      }
+      
+  </script>
+
 </body>
 </html>
