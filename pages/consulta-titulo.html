@@ -5,10 +5,11 @@
   <title>Listagem</title>
   <link rel="stylesheet" href="../styles/style-global.css">
   <link rel="stylesheet" href="../styles/style-consultas.css">
+  <link rel="icon" type="image/png" href="../images/favicon.ico">
 </head>
 <body>
   <h1>Listagem de Livros</h1>
-
+  <a href="consultas-livros.html" class="back-link">← Voltar</a>
   <form id = "form-busca-livro" class="form-busca-container">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
         <path d="M10 2a8 8 0 1 0 5.657 13.657l5.385 5.385 1.414-1.414-5.385-5.385A8 8 0 0 0 10 2Zm0 2a6 6 0 1 1 0 12A6 6 0 0 1 10 4Z"></path>
@@ -19,14 +20,16 @@
   <div class="container-tabela">
   <table >
     <thead id = "teste">
-      <th>Id</th>
-      <th>Titulo</th>
-      <th>ISBN</th>
-      <th>Categoria</th>
-      <th>Autor</th>
-      <th>Ano</th>
-      <th>Editar</th>
-      <th>Excluir</th>
+      <tr>
+        <th>Id</th>
+        <th>Titulo</th>
+        <th>ISBN</th>
+        <th>Categoria</th>
+        <th>Autor</th>
+        <th>Ano</th>
+        <th>Ações</th>
+    </tr>
+      
     </thead>
     <tbody id ="lista-livros">
       
@@ -98,8 +101,7 @@
       let tdCategoria = document.createElement("td");
       let tdAutor = document.createElement("td");
       let tdAno = document.createElement("td");
-      let tdEditar = document.createElement("td");
-      let tdExcluir = document.createElement("td");
+      let tdAcoes = document.createElement("td");
       
       tdId.textContent = a.id;
       tdTitulo.textContent = a.titulo;
@@ -110,20 +112,20 @@
       
       //———————– Editar ———————–
 
-      const btnEditar = document.createElement("button");
+        const btnEditar = document.createElement("button");
+        btnEditar.textContent = "Editar";
+        btnEditar.style.marginRight = "5px";
+        btnEditar.addEventListener("click", () => editar(a.id));
 
-      btnEditar.textContent = "Editar";
-      btnEditar.addEventListener("click", () => editar(a.id));
-      tdEditar.appendChild(btnEditar);
+      //———————– Excluir ———————–
+        const btnExcluir = document.createElement("button");
+        btnExcluir.textContent = "Excluir";
+        btnExcluir.style.backgroundColor = "#ff4d4d"; 
+        btnExcluir.style.color = "white";
+        btnExcluir.addEventListener("click", () => excluir(a.id));
 
-
-      
-      // ———————– Excluir ———————–
-      const btnExcluir = document.createElement("button");
-      btnExcluir.textContent = "Excluir";
-      btnExcluir.addEventListener("click", () => excluir(a.id));
-      tdExcluir.appendChild(btnExcluir);
-
+        tdAcoes.appendChild(btnEditar);
+        tdAcoes.appendChild(btnExcluir);
       
       tr.appendChild(tdId);
       tr.appendChild(tdTitulo);
@@ -131,8 +133,7 @@
       tr.appendChild(tdCategoria);
       tr.appendChild(tdAutor);
       tr.appendChild(tdAno);
-      tr.appendChild(tdEditar);
-      tr.appendChild(tdExcluir);
+      tr.appendChild(tdAcoes);
 
       tableLivros.appendChild(tr);
 
